@@ -33,7 +33,8 @@ module.exports = function (grunt) {
         babel: {
             options: {
                 sourceMap: false,
-                presets: ['babel-preset-es2015']
+                // presets: ['babel-preset-es2015'],
+                presets: ['minify']
             },
             dist: {
                 files: [{
@@ -71,5 +72,12 @@ module.exports = function (grunt) {
 
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-    grunt.registerTask('default', ['clean', 'copy', 'babel', 'less', 'cssmin', 'connect']);
+    grunt.registerTask('default', [
+        'clean',
+        'copy',
+        'babel',
+        'less',
+        'cssmin',
+        'connect'
+    ]);
 };

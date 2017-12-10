@@ -21,14 +21,14 @@ class Point {
     }
 }
 class ColorPoint extends Point {
-  constructor(x, y, color) {
-    super(x, y); // 调用父类的constructor(x, y)
-    this.color = color;
-  }
+    constructor(x, y, color) {
+        super(x, y); // 调用父类的constructor(x, y)
+        this.color = color;
+    }
 
-  toString() {
-    return this.color + ' ' + super.toString(); // 调用父类的toString()
-  }
+    toString() {
+        return this.color + ' ' + super.toString(); // 调用父类的toString()
+    }
 }
 //立即执行函数可以写成箭头函数的形式
 (() => {
