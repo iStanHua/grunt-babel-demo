@@ -1,9 +1,10 @@
 {
-  "name": "grunt-babel-demo",
+  "name": "grunt-es6",
   "version": "1.0.0",
-  "description": "use babel es6 to es5",
+  "description": "grunt es6",
   "scripts": {
-    "start": "grunt"
+    "dev": "grunt server",
+    "build": "grunt server:dest"
   },
   "dependencies": {},
   "devDependencies": {
@@ -15,9 +16,10 @@
     "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-connect": "^1.0.2",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-cssmin": "^2.2.0",
+    "grunt-contrib-cssmin": "^2.2.1",
+    "grunt-contrib-htmlmin": "^2.4.0",
     "grunt-contrib-less": "^1.4.1",
-    "matchdep": "^1.0.1"
+    "matchdep": "^2.0.0"
   },
   "keywords": [
     "grunt"

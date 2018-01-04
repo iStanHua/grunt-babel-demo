@@ -1,6 +1,6 @@
-# grunt-babel-demo
+# grunt-es6
 
-> use babel es6 to es5
+> grunt es6
 
 ## Build Setup
 
@@ -8,7 +8,10 @@
 # install dependencies
 npm install
 
-# server with hot reload at localhost:8811
-npm run start
+# server with hot reload at localhost:2018
+npm run dev
+
+# build 
+npm run build
 
 ```

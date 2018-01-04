@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = function (grunt) {
     grunt.initConfig({
@@ -10,13 +10,20 @@ module.exports = function (grunt) {
             },
             dest: {
                 options: {
-                    port: 8811,
+                    port: 2018,
                     base: ['dist']
+                }
+            },
+            build: {
+                options: {
+                    port: 2818,
+                    base: ['build']
                 }
             }
         },
         clean: {
-            dest: ['dist']
+            dest: ['dist', 'build'],
+            build: ['dist']
         },
         copy: {
             dest: {
@@ -24,26 +31,20 @@ module.exports = function (grunt) {
                     expand: true,
                     dot: true,
                     cwd: 'src',
-                    src: ['**/*', '**/*.html', '!js/*.js', '!**/*.less'],
+                    src: ['**/*', '!less/**/*.less'],
                     dest: 'dist',
                     filter: 'isFile'
                 }]
-            }
-        },
-        babel: {
-            options: {
-                sourceMap: false,
-                // presets: ['babel-preset-es2015'],
-                presets: ['minify']
             },
-            dist: {
+            build: {
                 files: [{
                     expand: true,
-                    cwd: 'src/js',
-                    src: ['{,*/}*.js'],
-                    dest: 'dist/js'
-                },
-                { 'dist/app.js': 'src/app.js' }]
+                    dot: true,
+                    cwd: 'src',
+                    src: ['**/*', '!less/**/*.less', '!pages/**/*.js'],
+                    dest: 'build',
+                    filter: 'isFile'
+                }]
             }
         },
         less: {
@@ -59,25 +60,65 @@ module.exports = function (grunt) {
             }
         },
         cssmin: {
-            css: {
+            build: {
                 files: [{
                     expand: true,
-                    cwd: 'dist/css',
+                    cwd: 'dist',
                     src: ['**/*.css'],
-                    dest: 'dist/css'
+                    dest: 'build'
+                }]
+            }
+        },
+        babel: {
+            options: {
+                sourceMap: false,
+                presets: ['minify']
+            },
+            build: {
+                files: [{
+                    expand: true,
+                    cwd: 'src',
+                    src: ['**/*.js', '!lib/**/*.js'],
+                    dest: 'build'
+                }]
+            }
+        },
+        htmlmin: {
+            build: {
+                files: [{
+                    expand: true,
+                    cwd: 'build',
+                    src: ['**/*.html'],
+                    dest: 'build'
                 }]
             }
         }
-    });
+    })
 
-    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
 
-    grunt.registerTask('default', [
-        'clean',
-        'copy',
-        'babel',
-        'less',
-        'cssmin',
-        'connect'
-    ]);
-};
+    grunt.registerTask('default', ['clean:dest'])
+
+    return grunt.registerTask('server', function (target) {
+        if (target !== 'dest') {
+            return grunt.task.run([
+                'clean:dest',
+                'less',
+                'copy:dest',
+                'connect:dest'
+            ])
+        }
+        else {
+            return grunt.task.run([
+                'clean:dest',
+                'less',
+                'cssmin',
+                'clean:build',
+                'copy:build',
+                'babel',
+                'htmlmin',
+                'connect:build'
+            ])
+        }
+    })
+}
