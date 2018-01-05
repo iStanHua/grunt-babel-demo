@@ -7,6 +7,7 @@ module.exports = function (grunt) {
                 hostname: 'localhost',
                 keepalive: true,
                 livereload: 35729,
+                open: true
             },
             dest: {
                 options: {
@@ -84,6 +85,10 @@ module.exports = function (grunt) {
             }
         },
         htmlmin: {
+            options: {
+                removeComments: true,
+                collapseWhitespace: true
+            },
             build: {
                 files: [{
                     expand: true,
@@ -91,6 +96,17 @@ module.exports = function (grunt) {
                     src: ['**/*.html'],
                     dest: 'build'
                 }]
+            }
+        },
+        postcss: {
+            options: {
+                map: true,
+                processors: [
+                    require('autoprefixer')
+                ]
+            },
+            dist: {
+                src: 'dist/**/*.css'
             }
         }
     })
@@ -104,6 +120,7 @@ module.exports = function (grunt) {
             return grunt.task.run([
                 'clean:dest',
                 'less',
+                'postcss',
                 'copy:dest',
                 'connect:dest'
             ])
@@ -112,6 +129,7 @@ module.exports = function (grunt) {
             return grunt.task.run([
                 'clean:dest',
                 'less',
+                'postcss',
                 'cssmin',
                 'clean:build',
                 'copy:build',

@@ -11,7 +11,7 @@ npm install
 # server with hot reload at localhost:2018
 npm run dev
 
-# build 
+# build for production with minification
 npm run build
 
 ```
