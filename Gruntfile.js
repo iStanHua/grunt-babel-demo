@@ -32,7 +32,7 @@ module.exports = function (grunt) {
                     expand: true,
                     dot: true,
                     cwd: 'src',
-                    src: ['**/*', '!less/**/*.less'],
+                    src: ['**/*', '!**/*.less'],
                     dest: 'dist',
                     filter: 'isFile'
                 }]
@@ -42,7 +42,7 @@ module.exports = function (grunt) {
                     expand: true,
                     dot: true,
                     cwd: 'src',
-                    src: ['**/*', '!less/**/*.less', '!pages/**/*.js'],
+                    src: ['**/*', '!**/*.less'],
                     dest: 'build',
                     filter: 'isFile'
                 }]
@@ -53,9 +53,9 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     dot: true,
-                    cwd: 'src/less',
-                    src: ['{,*/}*.less', '!{,*/}global.less', '!module/*.less'],
-                    dest: 'dist/css',
+                    cwd: 'src',
+                    src: ['**/*.less', '!{,*/}global.less', '!{,*/}base.less', '!module/*.less'],
+                    dest: 'dist',
                     ext: '.css'
                 }]
             }
