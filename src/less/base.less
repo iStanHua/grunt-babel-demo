@@ -1,4 +1,5 @@
 @import 'global.less';
+
 a,
 b,
 body,
@@ -68,6 +69,10 @@ a {
   color: @font-color;
   cursor: pointer;
   outline: 0;
+
+  &:hover {
+    color: @base-color;
+  }
 }
 
 button,
@@ -97,6 +102,11 @@ img {
   border: 0;
 }
 
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
 iframe {
   border: 0;
 }
@@ -116,20 +126,106 @@ iframe {
   align-items: center;
 
   .loading-spinner {
-    width: 100px;
-    height: 100px;
-    border: 8px solid rgba(136, 177, 75, .25);
+    width: 1rem;
+    height: 1rem;
+    border: .08rem solid rgba(136, 177, 75, .25);
     border-top-color: rgba(220, 63, 63, .8);
     border-radius: 100%;
     animation: rotation .6s infinite linear;
   }
 }
 
-.flex-box {
-  display: flex;
-  flex-wrap: wrap;
+.loading-tips {
+  padding: .2rem;
+  line-height: .2rem;
+  color: @gray-color;
+  text-align: center;
 
-  .flex-item {
+  &::before {
+    content: '';
+    display: inline-block;
+    width: .12rem;
+    height: .12rem;
+    margin-right: .08rem;
+    vertical-align: middle;
+    border: .02rem solid rgba(57, 102, 178, 0.25);
+    border-top-color: rgba(57, 102, 178, .9);
+    border-radius: 100%;
+    animation: rotation .6s infinite linear;
+  }
+}
+
+.wrapper {
+  width: 7.5rem;
+  margin: 0 auto;
+}
+
+.input-box {
+  display: flex;
+  align-items: center;
+
+  .input {
     flex: 1;
   }
 }
+
+.input {
+  line-height: .14rem;
+  background-color: transparent;
+  border-width: 0;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 88;
+  display: flex;
+  line-height: .18rem;
+  color: #fff;
+  background-color: @base-color;
+  box-shadow: 0 .01rem .05rem rgba(255, 255, 255, .18);
+
+  .back {
+    padding: .1rem .2rem;
+    color: #fff;
+  }
+
+  .header-title {
+    padding: .1rem;
+    font-size: .16rem;
+    text-align: center;
+    flex: 1;
+  }
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+
+  .copyright {
+    padding: .2rem .1rem;
+    line-height: .18rem;
+    color: #80848f;
+    text-align: center;
+  }
+}
+
+canvas {
+  margin: .2rem;
+}
+@media screen and (max-width:1200px) {
+  .wrapper {
+    width: 9rem;
+  }
+}
+@media screen and (max-width:900px) {
+  .wrapper {
+    width: 100%;
+  }
+}
+@media screen and (max-width:768px) {}

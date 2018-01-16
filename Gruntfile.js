@@ -5,8 +5,8 @@ module.exports = function (grunt) {
         connect: {
             options: {
                 hostname: 'localhost',
-                keepalive: true,
-                livereload: 35729,
+                // keepalive: true,
+                livereload: true,
                 open: true
             },
             dest: {
@@ -22,6 +22,19 @@ module.exports = function (grunt) {
                 }
             }
         },
+        watch: {
+            options: {
+                livereload: true
+            },
+            dest: {
+                files: ['src/**/*.html', 'src/**/*.js', 'src/**/*.less', 'src/images/**/*.{png,jpg,jpeg,gif,webp}'],
+                tasks: ['clean:dest', 'less', 'postcss', 'merge:dest', 'copy:dest']
+            },
+            build: {
+                files: ['src/**/*.html', 'src/**/*.js', 'src/**/*.less', 'src/images/**/*.{png,jpg,jpeg,gif,webp}'],
+                tasks: ['clean:dest', 'less', 'postcss', 'cssmin', 'merge:build', 'clean:build', 'copy:build', 'babel', 'htmlmin']
+            }
+        },
         clean: {
             dest: ['dist', 'build'],
             build: ['dist']
@@ -32,7 +45,7 @@ module.exports = function (grunt) {
                     expand: true,
                     dot: true,
                     cwd: 'src',
-                    src: ['**/*', '!**/*.less'],
+                    src: ['**/*', '!**/*.less', '!**/*.js'],
                     dest: 'dist',
                     filter: 'isFile'
                 }]
@@ -42,7 +55,7 @@ module.exports = function (grunt) {
                     expand: true,
                     dot: true,
                     cwd: 'src',
-                    src: ['**/*', '!**/*.less'],
+                    src: ['**/*', '!**/*.less', '!**/*.js'],
                     dest: 'build',
                     filter: 'isFile'
                 }]
@@ -66,6 +79,27 @@ module.exports = function (grunt) {
                     expand: true,
                     cwd: 'dist',
                     src: ['**/*.css'],
+                    dest: 'build'
+                }]
+            }
+        },
+        merge: {
+            options: {
+                target: ['src/js/mrem.js', 'src/js/game.js']
+            },
+            dest: {
+                files: [{
+                    expand: true,
+                    cwd: 'src',
+                    src: ['**/*.js', '!js/**/*.js'],
+                    dest: 'dist'
+                }]
+            },
+            build: {
+                files: [{
+                    expand: true,
+                    cwd: 'src',
+                    src: ['**/*.js', '!js/**/*.js'],
                     dest: 'build'
                 }]
             }
@@ -111,9 +145,51 @@ module.exports = function (grunt) {
         }
     })
 
+    grunt.event.on('watch', function (action, filepath, target) {
+        grunt.log.writeln(target + ': ' + filepath + ' has ' + action)
+    })
+
+    grunt.registerMultiTask('merge', 'merge javascript file', function () {
+        let _count = 0
+        let mergeCode = ''
+        let options = this.options({
+            target: '',
+            separate: ';'
+        })
+        let _target = options.target
+
+        if (typeof _target === 'string') {
+            mergeCode = grunt.file.read(_target) + options.separate
+        }
+        else if (Object.prototype.toString.call(_target) === '[object Array]') {
+            _target.forEach(function (item) {
+                mergeCode += grunt.file.read(item) + options.separate
+            })
+        }
+
+        this.files.forEach(function (f) {
+            let fileList = f.src.filter(function (filepath) {
+                if (!grunt.file.exists(filepath)) {
+                    grunt.log.warn('Source file "' + filepath + '" not found.')
+                    return false
+                } else {
+                    return true
+                }
+
+            }).map(function (filepath) {
+                let srcCode = grunt.file.read(filepath)
+                grunt.file.write(f.dest, mergeCode + srcCode);
+                grunt.log.oklns('File ' + f.dest + ' created.');
+                _count++;
+            });
+        });
+        grunt.log.oklns(_count + ' files created.');
+    })
+
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
 
     grunt.registerTask('default', ['clean:dest'])
+
 
     return grunt.registerTask('server', function (target) {
         if (target !== 'dest') {
@@ -121,8 +197,10 @@ module.exports = function (grunt) {
                 'clean:dest',
                 'less',
                 'postcss',
+                'merge:dest',
                 'copy:dest',
-                'connect:dest'
+                'connect:dest',
+                'watch:dest'
             ])
         }
         else {
@@ -130,12 +208,14 @@ module.exports = function (grunt) {
                 'clean:dest',
                 'less',
                 'postcss',
+                'merge:build',
                 'cssmin',
                 'clean:build',
                 'copy:build',
                 'babel',
                 'htmlmin',
-                'connect:build'
+                'connect:build',
+                'watch:build'
             ])
         }
     })
