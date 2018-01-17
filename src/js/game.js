@@ -12,7 +12,30 @@ window.cancelAnimationFrame = window.cancelAnimationFrame ||
     function (timer) {
         clearTimeout(timer)
     }
+class Loader {
+    constructor() {
+        this.images = {}
+    }
+    loadImage(key, src) {
+        let img = new Image()
+        let p = new Promise((resolve, reject) => {
+            img.onload = () => {
+                this.images[key] = img
+                resolve(img)
+            }
+            img.onerror = () => {
+                reject('Could not load image：' + src)
+            }
+        })
+        img.src = src
+        return p
+    }
 
+    getImage(key) {
+        console.log(key)
+        return (key in this.images) ? this.images[key] : null
+    }
+}
 class Keyboard {
     constructor() {
         this.LEFT = 37
@@ -49,48 +72,15 @@ class Keyboard {
     }
 }
 
-class Camera {
-    constructor(map, width, heigth) {
-        this.x = 0
-        this.y = 0
-        this.width = width
-        this.height = heigth
-        this.maxX = map.cols * map.tsize - width
-        this.maxY = map.rows * map.tsize - heigth
-        this.SPEED = 256  // 像素每秒
-    }
-    move(delta, dirx, diry) {
-        this.x += dirx * this.SPEED * delta
-        this.y += diry * this.SPEED * delta
-        this.x = Math.max(0, Math.min(this.x, this.maxX))
-        this.y = Math.max(0, Math.min(this.y, this.maxY))
-    }
-}
-
-class Game {
+class Game extends Loader {
     constructor(canvas) {
-        this.images = {}
+        super()
         this.canvas = canvas
         this.ctx = canvas.getContext('2d')
         // 前一帧时间
         this._previousElapsed = 0
-    }
-    loadImage(key, src) {
-        let img = new Image()
-        let p = new Promise((resolve, reject) => {
-            img.onload = () => {
-                this.images[key] = img
-                resolve(img)
-            }
-            img.onerror = () => {
-                reject('Could not load image：' + src)
-            }
-        })
-        img.src = src
-        return p
-    }
-    getImage(key) {
-        return (key in this.images) ? this.images[key] : null
+
+        this.keyboard = new Keyboard()
     }
     init() {
 

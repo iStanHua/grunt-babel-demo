@@ -44,9 +44,8 @@ class Scroll extends Game {
         ]
     }
     init() {
-        this.keyboard = new Keyboard()
-        this.keyboard.listenForEvents([this.keyboard.LEFT, this.keyboard.RI
-            , this.keyboard.UP, this.keyboard.DOWN])
+        this.keyboard.listenForEvents([this.keyboard.LEFT, this.keyboard.RIGHT, this.keyboard.UP, this.keyboard.DOWN])
+
         this.tileAtlas = this.getImage('tiles')
         this.camera = new Camera(this.map, 512, 512)
     }
@@ -61,9 +60,19 @@ class Scroll extends Game {
     }
     _drawLayer(layer) {
         const map = this.map
-        for (let c = 0; c < map.cols; c++) {
-            for (let r = 0; r < map.rows; r++) {
+        let startCol = Math.floor(this.camera.x / map.tsize)
+        let endCol = startCol + (this.camera.width / map.tsize)
+        let startRow = Math.floor(this.camera.y / map.tsize)
+        let endRow = startRow + (this.camera.height / map.tsize)
+        let offsetX = -this.camera.x + startCol * map.tsize
+        let offsetY = -this.camera.y + startRow * map.tsize
+
+        for (let c = startCol; c <= endCol; c++) {
+            for (let r = startRow; r <= endRow; r++) {
                 let tile = map.getTile(layer, c, r)
+                let x = (c - startCol) * map.tsize + offsetX
+                let y = (r - startRow) * map.tsize + offsetY
+
                 if (tile) {
                     this.ctx.drawImage(
                         this.tileAtlas,
@@ -86,7 +95,31 @@ class Scroll extends Game {
     }
 }
 
+class Camera {
+    constructor(map, width, height) {
+        this.x = 0
+        this.y = 0
+        this.width = width
+        this.height = height
+        this.maxX = map.cols * map.tsize - width
+        this.maxY = map.rows * map.tsize - height
+
+        this.SPEED = 256  // 像素每秒
+    }
+
+    move(delta, dirx, diry) {
+        // move camera
+        this.x += dirx * this.SPEED * delta
+        this.y += diry * this.SPEED * delta
+
+        // clamp values
+        this.x = Math.max(0, Math.min(this.x, this.maxX))
+        this.y = Math.max(0, Math.min(this.y, this.maxY))
+    }
+}
+
 window.onload = () => {
     const scroll = new Scroll()
+    console.log(scroll)
     scroll.start()
 }
