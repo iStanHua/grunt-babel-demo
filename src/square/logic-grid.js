@@ -74,8 +74,6 @@ class LogicGrid extends Game {
 
         this.hero = new Hero(this.map, 160, 160)
 
-        console.log(this.hero)
-
         this.camera = new Camera(this.map, 512, 512)
         this.camera.follow(this.hero)
 
@@ -135,7 +133,7 @@ class LogicGrid extends Game {
             this.ctx.lineTo(width, y)
             this.ctx.stroke()
         }
-        for (let c = 0; c < this.map.cols; r++) {
+        for (let c = 0; c < this.map.cols; c++) {
             x = c * this.map.tsize - this.camera.x
             y = -this.camera.y
             this.ctx.beginPath()
@@ -148,11 +146,12 @@ class LogicGrid extends Game {
         this._drawLayer(0)
 
         this.ctx.drawImage(
-            this.hero.image,
+            this.getImage('hero'),
             this.hero.screenX - this.hero.width / 2,
             this.hero.screenY - this.hero.height / 2)
 
         this._drawLayer(1)
+
         this._drawGrid()
     }
 }
@@ -211,11 +210,6 @@ class Hero {
         this.width = map.tsize
         this.height = map.tsize
 
-        const loader = new Loader()
-        loader.loadImage('hero', '../../images/character.png')
-        console.log(loader.getImage('hero'))
-        this.image = loader.getImage('hero')
-
         this.SPEED = 256  // 像素每秒
     }
 
@@ -270,7 +264,7 @@ window.onload = () => {
     const logicGrid = new LogicGrid()
     logicGrid.start()
 
-    var speechSU = new window.SpeechSynthesisUtterance();
-    speechSU.text = '你好，世界！';
-    window.speechSynthesis.speak(speechSU);
+    var speechSU = new window.SpeechSynthesisUtterance()
+    speechSU.text = '你好，世界！logic grid'
+    window.speechSynthesis.speak(speechSU)
 }
