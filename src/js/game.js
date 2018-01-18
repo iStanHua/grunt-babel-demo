@@ -32,7 +32,6 @@ class Loader {
     }
 
     getImage(key) {
-        console.log(key)
         return (key in this.images) ? this.images[key] : null
     }
 }

@@ -37,7 +37,7 @@ class LogicGrid extends Game {
             },
             isSolidTileAtXY: function (x, y) {
                 let col = this.getCol(x)
-                let row = this.getRow(y)
+                let row = this.getCol(y)
 
                 // tiles 3 and 5 are solid -- the rest are walkable
                 // loop through all layers and return TRUE if any tile is solid
@@ -68,7 +68,14 @@ class LogicGrid extends Game {
         ]
     }
     init() {
-        this.keyboard.listenForEvents([this.keyboard.LEFT, this.keyboard.RIGHT, this.keyboard.UP, this.keyboard.DOWN])
+        this.keyboard.listenForEvents(
+            [
+                this.keyboard.LEFT,
+                this.keyboard.RIGHT,
+                this.keyboard.UP,
+                this.keyboard.DOWN
+            ]
+        )
 
         this.tileAtlas = this.getImage('tiles')
 
@@ -123,8 +130,9 @@ class LogicGrid extends Game {
     }
     _drawGrid() {
         let width = this.map.cols * this.map.tsize
-        let height = this.map.rows * this.tsize
+        let height = this.map.rows * this.map.tsize
         let x, y
+
         for (let r = 0; r < this.map.rows; r++) {
             x = -this.camera.x
             y = r * this.map.tsize - this.camera.y
@@ -133,6 +141,7 @@ class LogicGrid extends Game {
             this.ctx.lineTo(width, y)
             this.ctx.stroke()
         }
+
         for (let c = 0; c < this.map.cols; c++) {
             x = c * this.map.tsize - this.camera.x
             y = -this.camera.y
@@ -187,7 +196,6 @@ class Camera {
 
         // in map corners, the sprite cannot be placed in the center of the screen
         // and we have to change its screen coordinates
-
         // left and right sides
         if (this.following.x < this.width / 2 ||
             this.following.x > this.maxX + this.width / 2) {
@@ -205,8 +213,8 @@ class Camera {
 class Hero {
     constructor(map, x, y) {
         this.map = map
-        this.x = 0
-        this.y = 0
+        this.x = x
+        this.y = y
         this.width = map.tsize
         this.height = map.tsize
 
@@ -218,9 +226,14 @@ class Hero {
         this.x += dirx * this.SPEED * delta
         this.y += diry * this.SPEED * delta
 
+        this._collide(dirx, diry)
+
+        let maxX = this.map.cols * this.map.tsize
+        let maxY = this.map.rows * this.map.tsize
+
         // clamp values
-        this.x = Math.max(0, Math.min(this.x, this.maxX))
-        this.y = Math.max(0, Math.min(this.y, this.maxY))
+        this.x = Math.max(0, Math.min(this.x, maxX))
+        this.y = Math.max(0, Math.min(this.y, maxY))
     }
 
     _collide(dirx, diry) {
@@ -234,12 +247,13 @@ class Hero {
         let bottom = this.y + this.height / 2 - 1
 
         // check for collisions on sprite sides
-        let collision = this.map.isSolidTileAtXY(left, top) ||
+        let collision =
+            this.map.isSolidTileAtXY(left, top) ||
             this.map.isSolidTileAtXY(right, top) ||
             this.map.isSolidTileAtXY(right, bottom) ||
             this.map.isSolidTileAtXY(left, bottom)
         if (!collision) return
-
+        console.log(dirx)
         if (diry > 0) {
             row = this.map.getRow(bottom)
             this.y = - this.height / 2 + this.map.getY(row)
@@ -250,13 +264,12 @@ class Hero {
         }
         else if (dirx > 0) {
             col = this.map.getCol(right)
-            this.x = this.width / 2 + this.map.getX(col)
+            this.x = -this.width / 2 + this.map.getX(col)
         }
         else if (dirx < 0) {
             col = this.map.getCol(left)
             this.x = this.width / 2 + this.map.getX(col + 1)
         }
-
     }
 }
 

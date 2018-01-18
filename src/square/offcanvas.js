@@ -1,5 +1,5 @@
 
-class Scroll extends Game {
+class Offcanvas extends Game {
     constructor() {
         super(document.getElementById('gameCanvas'))
         this.map = {
@@ -38,11 +38,13 @@ class Scroll extends Game {
             }
         }
     }
+
     load() {
         return [
             this.loadImage('tiles', '../../images/tiles.png')
         ]
     }
+
     init() {
         this.keyboard.listenForEvents(
             [
@@ -52,20 +54,48 @@ class Scroll extends Game {
                 this.keyboard.DOWN
             ]
         )
-        
+
         this.tileAtlas = this.getImage('tiles')
         this.camera = new Camera(this.map, 512, 512)
+
+        // create a canvas for each layer
+        this.layerCanvas = this.map.layers.map(function () {
+            let c = document.createElement('canvas')
+            c.width = 512
+            c.height = 512
+            return c
+        })
+
+        this._drawMap()
     }
+
     update(delta) {
+        this.hasScrolled = false
+
+        // handle camera movement with arrow keys
         let dirx = 0
         let diry = 0
         if (this.keyboard.isDown(this.keyboard.LEFT)) { dirx = -1 }
         if (this.keyboard.isDown(this.keyboard.RIGHT)) { dirx = 1 }
         if (this.keyboard.isDown(this.keyboard.UP)) { diry = -1 }
         if (this.keyboard.isDown(this.keyboard.DOWN)) { diry = 1 }
-        this.camera.move(delta, dirx, diry)
+
+        if (dirx || diry) {
+            this.camera.move(delta, dirx, diry)
+            this.hasScrolled = true
+        }
     }
+
+    _drawMap() {
+        this.map.layers.forEach(function (layer, index) {
+            this._drawLayer(index)
+        }.bind(this))
+    }
+
     _drawLayer(layer) {
+        let context = this.layerCanvas[layer].getContext('2d')
+        context.clearRect(0, 0, 512, 512)
+
         const map = this.map
         let startCol = Math.floor(this.camera.x / map.tsize)
         let endCol = startCol + (this.camera.width / map.tsize)
@@ -81,7 +111,7 @@ class Scroll extends Game {
                 let y = (r - startRow) * map.tsize + offsetY
 
                 if (tile) {
-                    this.ctx.drawImage(
+                    context.drawImage(
                         this.tileAtlas,
                         (tile - 1) * map.tsize,
                         0,
@@ -97,8 +127,14 @@ class Scroll extends Game {
         }
     }
     render() {
-        this._drawLayer(0)
-        this._drawLayer(1)
+        // re-draw map if there has been scroll
+        if (this.hasScrolled) {
+            this._drawMap()
+        }
+
+        // draw the map layers into game context
+        this.ctx.drawImage(this.layerCanvas[0], 0, 0)
+        this.ctx.drawImage(this.layerCanvas[1], 0, 0)
     }
 }
 
@@ -126,7 +162,7 @@ class Camera {
 }
 
 window.onload = () => {
-    const scroll = new Scroll()
-    console.log(scroll)
-    scroll.start()
+    const offcanvas = new Offcanvas()
+
+    offcanvas.start()
 }
