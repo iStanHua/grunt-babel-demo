@@ -12,6 +12,7 @@ window.cancelAnimationFrame = window.cancelAnimationFrame ||
     function (timer) {
         clearTimeout(timer)
     }
+
 class Loader {
     constructor() {
         this.images = {}
@@ -46,9 +47,9 @@ class Keyboard {
     listenForEvents(keys) {
         window.addEventListener('keydown', this._onKeyDown.bind(this))
         window.addEventListener('keyup', this._onKeyUp.bind(this))
-        keys.forEach(function (key) {
+        keys.forEach((key)=>{
             this._keys[key] = false
-        }.bind(this))
+        })
     }
     _onKeyDown(event) {
         let keyCode = event.keyCode

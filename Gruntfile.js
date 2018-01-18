@@ -85,7 +85,7 @@ module.exports = function (grunt) {
         },
         merge: {
             options: {
-                target: ['src/js/mrem.js', 'src/js/game.js']
+                target: ['src/js/mrem.js', 'src/js/game.js', 'src/js/slider.js']
             },
             dest: {
                 files: [{

@@ -127,6 +127,5 @@ class Camera {
 
 window.onload = () => {
     const scroll = new Scroll()
-    console.log(scroll)
     scroll.start()
 }
