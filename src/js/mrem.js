@@ -2,14 +2,15 @@
     let docEl = document.documentElement
     let _baseWidth = 750
     let resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize'
-    let _ios = navigator.userAgent.toLowerCase().match(/iphone|ipad|ipod/i)
-    let _android = navigator.userAgent.toLowerCase().match(/android/i)
+    let _ua = navigator.userAgent.toLowerCase()
+    let _ios = _ua.match(/iphone|ipad|ipod/i)
+    let _android = _ua.match(/android/i)
     if (_ios || _android) {
         docEl.classList.add('m-html')
         if (_ios) {
             docEl.classList.add('iosx' + window.devicePixelRatio)
         }
-        let recalc = function () {
+        let recalc = () => {
             let _clientWidth = docEl.clientWidth
             if (!_clientWidth) return
             if (_clientWidth >= _baseWidth) {
@@ -19,7 +20,11 @@
         }
         recalc()
         if (document.addEventListener) {
-            window.addEventListener(resizeEvt, recalc, false)
+            window.addEventListener(resizeEvt, () => {
+                setTimeout(() => {
+                    recalc()
+                })
+            }, false)
         }
     }
     else {

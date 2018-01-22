@@ -67,7 +67,7 @@ module.exports = function (grunt) {
                     expand: true,
                     dot: true,
                     cwd: 'src',
-                    src: ['**/*.less', '!{,*/}global.less', '!{,*/}base.less', '!module/*.less'],
+                    src: ['**/*.less', '!less/global.less', '!less/base.less', '!less/animation.less', '!less/module/*.less'],
                     dest: 'dist',
                     ext: '.css'
                 }]

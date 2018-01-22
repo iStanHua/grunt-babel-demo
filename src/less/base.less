@@ -112,51 +112,150 @@ iframe {
 }
 
 .loading {
-  position: fixed;
-  left: 0;
-  top: 0;
+  width: .3rem;
+  height: .3rem;
+  vertical-align: middle;
+  border: .02rem solid rgba(0, 0, 0, .18);
+  border-top-color: @base-color;
+  border-radius: 100%;
+  animation: rotation ease-in .6s infinite;
+}
+
+.turntable-loading {
+  width: .3rem;
+  height: .3rem;
   display: flex;
-  height: 100%;
-  width: 100%;
-  z-index: 999;
-  opacity: 1;
-  background-color: #fff;
-  pointer-events: none;
+  border: .02rem solid @base-color;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-radius: 100%;
+  animation: rotation 1s ease-in-out .2s infinite;
   justify-content: center;
   align-items: center;
 
-  .loading-spinner {
-    width: 1rem;
-    height: 1rem;
-    border: .08rem solid rgba(136, 177, 75, .25);
-    border-top-color: rgba(220, 63, 63, .8);
+  &::before {
+    content: '';
+    width: .1rem;
+    height: .1rem;
     border-radius: 100%;
-    animation: rotation .6s infinite linear;
+    background-color: @base-color;
+    animation: scale 1s ease-in-out .2s infinite;
   }
 }
 
-.loading-tips {
-  padding: .2rem;
-  line-height: .2rem;
-  color: @gray-color;
-  text-align: center;
+.radar-loading {
+  position: relative;
+  display: flex;
+  width: .3rem;
+  height: .3rem;
+  justify-content: center;
+  align-items: center;
 
   &::before {
     content: '';
-    display: inline-block;
-    width: .12rem;
-    height: .12rem;
-    margin-right: .08rem;
-    vertical-align: middle;
-    border: .02rem solid rgba(57, 102, 178, 0.25);
-    border-top-color: rgba(57, 102, 178, .9);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: .3rem;
+    height: .3rem;
     border-radius: 100%;
-    animation: rotation .6s infinite linear;
+    background: radial-gradient(transparent 10%,rgba(45, 140, 240, .9) 100%);
+    animation: radar 1s ease 0s infinite;
+  }
+
+  .radar {
+    position: absolute;
+    top: .01rem;
+    left: .01rem;
+    width: .28rem;
+    height: .28rem;
+    border-radius: 100%;
+    background: radial-gradient(transparent 10%, rgba(45, 140, 240, .8) 100%);
+    animation: radar 1s ease .2s infinite;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: .025rem;
+      left: .025rem;
+      width: .25rem;
+      height: .25rem;
+      border-radius: 100%;
+      background: radial-gradient(transparent 10%, rgba(45, 140, 240, .7) 100%);
+      animation: radar 1s ease .3s infinite;
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: .3rem;
+    height: .3rem;
+    border-radius: 100%;
+    background: radial-gradient(transparent 10%, rgba(45, 140, 240, .6) 100%);
+    animation: radar 1s ease .4s infinite;
+  }
+}
+
+.filter-loading {
+  position: relative;
+  // top: 50%;
+  // left: 50%;
+  // transform: translate(-50%, -50%);
+  width: 300px;
+  height: 200px;
+  filter: contrast(20);
+  background-color: #fff;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #333;
+    top: 40px;
+    left: 40px;
+    z-index: 2;
+    filter: blur(6px);
+    box-sizing: border-box;
+    animation: filterBallMove 4s ease-out infinite;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #3F51B5;
+    top: 60px;
+    right: 40px;
+    z-index: 2;
+    filter: blur(6px);
+    animation: filterBallMove2 4s ease-out infinite;
+  }
+}
+
+.typing {
+  height: .18rem;
+  line-height: .18rem;
+  animation: typing 3s steps(0, end) cursor-blink .3s step-end infinite alternate;
+
+  &::after {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    width: .01rem;
+    background-color: @base-color;
+    animation: cursor-blink .3s step-end infinite alternate;
   }
 }
 
 .wrapper {
-  width: 7.5rem;
+  width: 12rem;
   margin: 0 auto;
 }
 
@@ -232,3 +331,4 @@ canvas {
   }
 }
 @media screen and (max-width:768px) {}
+@import 'animation.less';
