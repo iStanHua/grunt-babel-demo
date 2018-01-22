@@ -24,7 +24,10 @@ class Slider {
         this.$el.addEventListener('mouseup', e => {
             this.mousePressed = false
         })
-        this.$el.addEventListener('mouseup', e => {
+        this.$el.addEventListener('mouseleave', e => {
+            this.mousePressed = false
+        })
+        this.$el.addEventListener('mousemove', e => {
             if (this.mousePressed) {
                 this._onChange(e)
             }
@@ -62,7 +65,7 @@ class Slider {
         let mouseX = this._getMousePosition(e, this.$el).x
         this.value = this._clamp((mouseX / this.$el.offsetWidth) * (this.max - this.min) + this.min, this.min, this.max)
         if (typeof this.change === 'function') {
-            this.change(value)
+            this.change(this.value)
         }
         this.draw()
     }

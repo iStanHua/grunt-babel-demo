@@ -1,4 +1,6 @@
-const slider = new Slider(document.getElementById('slider'), 10)
+const slider = new Slider(document.getElementById('slider'), 10, function (value) {
+    console.log(value)
+})
 
 var canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d'),
