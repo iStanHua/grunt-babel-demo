@@ -75,6 +75,6 @@ class Circle {
 }
 
 window.onload = () => {
-    var circle = new Circle(document.getElementById('gameCanvas'), 1000, 200, '机位')
+    let circle = new Circle(document.getElementById('gameCanvas'), 1000, 200, '数量')
     circle.init()
 }

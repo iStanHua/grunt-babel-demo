@@ -8,7 +8,7 @@
 # install dependencies
 npm install
 
-# server with hot reload at localhost:2018
+# server with hot reload at localhost:666
 npm run dev
 
 # build for production with minification

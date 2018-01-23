@@ -11,13 +11,13 @@ module.exports = function (grunt) {
             },
             dest: {
                 options: {
-                    port: 2018,
+                    port: 666,
                     base: ['dist']
                 }
             },
             build: {
                 options: {
-                    port: 2818,
+                    port: 888,
                     base: ['build']
                 }
             }
