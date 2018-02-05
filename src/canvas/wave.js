@@ -126,7 +126,7 @@ class SiriWave {
 }
 
 window.onload = () => {
-    var siriWave = new SiriWave({
+    let siriWave = new SiriWave({
         canvas: document.getElementById('gameCanvas'),
         ratio: 1,
         speed: 0.006,

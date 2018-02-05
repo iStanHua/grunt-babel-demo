@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>pixel</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="../favicon.ico" />
+    <link href="pixel.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="header">
+        <a class="back" onclick="history.go(-1)">返回</a>
+        <div class="header-title">pixel</div>
+    </div>
+    <div class="content">
+        <div class="wrapper">
+            <canvas id="gameCanvas"></canvas>
+            <p>
+                <button id="J_grayscale">灰度效果</button>
+                <button id="J_sepia">复古效果</button>
+                <button id="J_redmask">红色蒙版效果</button>
+                <button id="J_brightness">亮度效果</button>
+                <button id="J_invert">反转效果</button>
+            </p>
+        </div>
+    </div>
+    <script src="pixel.js"></script>
+</body>
+
+</html>
