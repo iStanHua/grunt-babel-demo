@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>core</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="../favicon.ico" />
+    <link href="core.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="header">
+        <a class="back" onclick="history.go(-1)">返回</a>
+        <div class="header-title">core</div>
+    </div>
+    <div class="content">
+        <div class="wrapper">
+            <div id="status" class="ui"></div>
+            <div id="panels">
+                <div id="message" class="ui">
+                    <h2 id="title">Core</h2>
+                    A sibling game to
+                    <a class="external" href="http://www.sinuousgame.com/">Sinuous</a>.
+                    <ul>
+                        <li>1. Protect the core.</li>
+                        <li>2. Gather energy (green dots).</li>
+                        <li>2. Hold SPACE for shield (depletes energy).</li>
+                    </ul>
+                    <a href="#" id="startButton">Start</a>
+                </div>
+            </div>
+            <canvas id="gameCanvas" width="512" height="512"></canvas>
+            <canvas id="background"></canvas>
+        </div>
+    </div>
+    <script src="core.js"></script>
+</body>
+
+</html>

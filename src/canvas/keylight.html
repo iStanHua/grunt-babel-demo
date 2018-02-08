@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>keylight</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="../favicon.ico" />
+    <link href="keylight.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="header">
+        <a class="back" onclick="history.go(-1)">返回</a>
+        <div class="header-title">keylight</div>
+    </div>
+    <div class="content">
+        <div class="wrapper">
+            <div id="panel">
+                <p>Depending on where keys are placed, different tones will be played.
+                    <br/>
+                    <b>Double click</b> to add new keys or press & hold to drag them around.
+                    <br/>Copy the
+                    <b>URL</b> to save your tune.
+                    <br/>
+                    <b>
+                        <a id="reset" href="#">Reset</a> -
+                        <a id="randomize" href="#">Randomize</a> - </b>
+                    <b>
+                        <a id="decreaseSpeed" href="#">Decrease</a> /
+                        <a id="increaseSpeed" href="#">Increase</a>
+                    </b> speed (
+                    <span id="speedDisplay">3/6</span>)</p>
+            </div>
+            <div id="paused" class="message">Paused due to lack of input. Move your mouse or click to re-activate.</div>
+            <div id="intro" class="message">Double-click inside the room and create at least two keys to trigger sound.</div>
+        </div>
+        <canvas id="world">
+            <p class="noCanvas">You need a
+                <a href="http://www.google.com/chrome">modern browser</a> to view this.</p>
+        </canvas>
+    </div>
+    <script src="keylight.js"></script>
+</body>
+
+</html>
