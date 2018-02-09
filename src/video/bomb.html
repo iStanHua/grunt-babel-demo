@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>bomb</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="../favicon.ico" />
+    <link href="bomb.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="header">
+        <a class="back" onclick="history.go(-1)">返回</a>
+        <div class="header-title" id="status">bomb</div>
+    </div>
+    <div class="content">
+        <div class="wrapper">
+            <div style="display:none">
+                <video id="sourcevid" autoplay="true" loop="true">
+                    <source src="http://www.w3school.com.cn/example/html5/mov_bbb.mp4" type="video/mp4" />
+                    <source src="http://www.w3school.com.cn/example/html5/mov_bbb.ogg" type="video/ogg" />
+                </video>
+                <canvas id="sourcecopy" width="640" height="360"></canvas>
+            </div>
+            <canvas id="output" width="1000" height="600" onmousedown="dropBomb(event, this)"></canvas>
+        </div>
+    </div>
+    <script src="bomb.js"></script>
+</body>
+
+</html>
