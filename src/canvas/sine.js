@@ -59,7 +59,7 @@
         // Update the time and draw again
         draw.seconds = draw.seconds - .007;
         draw.t = draw.seconds * Math.PI;
-        window, requestAnimationFrame(draw);
+        window.requestAnimationFrame(draw);
     };
     draw.seconds = 0;
     draw.t = 0;
