@@ -1,18 +1,20 @@
 @import 'less/base.less';
 
-.listview {
+.grid-title {
+  padding: .15rem;
+  line-height: .16rem;
+  font-weight: 600;
+  font-size: .16rem;
+}
+
+.gridview {
+  display: flex;
   background-color: #fff;
+  flex-flow: wrap;
 
-  .list-title {
-    padding: .15rem;
-    line-height: .16rem;
-    font-weight: 600;
-    font-size: .16rem;
-  }
-
-  .list-item {
-    display: block;
-    padding: .1rem .15rem;
+  .grid-item {
+    flex: 1;
+    padding: .15rem .2rem;
     line-height: .14rem;
     font-size: .14rem;
 
