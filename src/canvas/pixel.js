@@ -55,6 +55,7 @@ class Pixel {
     }
     /**
      * 灰度效果
+     * 灰度图（grayscale）就是取红、绿、蓝三个像素值的算术平均值，这实际上将图像转成了黑白形式。假定d[i]是像素数组中一个象素的红色值，则d[i+1]为绿色值，d[i+2]为蓝色值，d[i+3]就是alpha通道值。转成灰度的算法，就是将红、绿、蓝三个值相加后除以3，再将结果写回数组。
      * @param {Object} pixels 像素数据
      */
     _grayscale(pixels) {
@@ -69,6 +70,7 @@ class Pixel {
     }
     /**
      * 复古效果
+     * 复古效果（sepia）则是将红、绿、蓝三个像素，分别取这三个值的某种加权平均值，使得图像有一种古旧的效果。
      * @param {Object} pixels 像素数据
      */
     _sepia(pixels) {
@@ -85,6 +87,7 @@ class Pixel {
     }
     /**
      * 红色蒙版效果
+     * 红色蒙版指的是，让图像呈现一种偏红的效果。算法是将红色通道设为红、绿、蓝三个值的平均值，而将绿色通道和蓝色通道都设为0。
      * @param {Object} pixels 像素数据
      */
     _redmask(pixels) {
@@ -100,6 +103,7 @@ class Pixel {
     }
     /**
      * 亮度效果
+     * 亮度效果（brightness）是指让图像变得更亮或更暗。算法将红色通道、绿色通道、蓝色通道，同时加上一个正值或负值。
      * @param {Object} pixels 像素数据
      * @param {Number} delta 
      */
@@ -114,6 +118,7 @@ class Pixel {
     }
     /**
      * 反转效果
+     * 反转效果（invert）是指图片呈现一种色彩颠倒的效果。算法为红、绿、蓝通道都取各自的相反值（255-原值）。
      * @param {Object} pixels 像素数据
      */
     _invert(pixels, delta) {
