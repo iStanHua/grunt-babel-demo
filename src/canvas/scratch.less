@@ -1,0 +1,43 @@
+@import '../less/base.less';
+
+.content {
+  padding-top: .4rem;
+}
+
+.wrapper {
+  padding: .2rem;
+  text-align: center;
+  background-color: #fff;
+}
+
+.scratch-box {
+  position: relative;
+  width: 3rem;
+  height: 1.5rem;
+  margin: 0 auto;
+  background-color: @base-color;
+}
+
+.scratch {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: #fff;
+
+  p {
+    margin-top: .7rem;
+    font-size: .2rem;
+  }
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  z-index: 2;
+}
